@@ -1,0 +1,77 @@
+'use client';
+
+import React, { useState } from 'react';
+import { Box, Flex, Heading, VStack, Button, IconButton, Text } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import Link from 'next/link';
+
+export default function HomePage() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <Flex height="100vh" direction="column" position="relative">
+      {/* Menu Button with Text */}
+      <Flex align="center" cursor="pointer" onClick={toggleSidebar} p={4} position="absolute" top={4} left={4} zIndex={20}>
+        <IconButton
+          aria-label="Toggle Menu"
+          icon={<HamburgerIcon />}
+          variant="ghost"
+        />
+        <Text ml={2} fontSize="lg" fontWeight="bold">Menu</Text>
+      </Flex>
+
+      {/* Sidebar Overlay */}
+      {isOpen && (
+        <Box position="fixed" top={0} left={0} width="100vw" height="100vh" bg="rgba(0, 0, 0, 0.5)" zIndex={10} onClick={toggleSidebar} />
+      )}
+      
+      {/* Sidebar */}
+      {isOpen && (
+        <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20}>
+        <VStack spacing={4} align="stretch">
+          <Link href="/collection" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Collection
+            </Button>
+          </Link>
+          <Link href="/dyeing" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Dyeing
+            </Button>
+          </Link>
+          <Link href="/finishing" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Finishing
+            </Button>
+          </Link>
+          <Link href="/Inventory" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Inventory
+            </Button>
+          </Link>
+          <Link href="/Lab" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Lab
+            </Button>
+          </Link>
+          <Link href="/processing" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Processing
+            </Button>
+          </Link>
+        </VStack>
+      </Box>
+      
+      )}
+
+      {/* Main Content */}
+      <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">
+        <Heading size="2xl" color="gray.700">ERP System</Heading>
+      </Flex>
+    </Flex>
+  );
+}
