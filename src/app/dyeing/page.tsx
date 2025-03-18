@@ -36,12 +36,6 @@ export default function DyeingPage() {
             <Link href="/dyeing/job-card" passHref>
               <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Job Card</Button>
             </Link>
-            <Link href="/dyeing/job-card-completion" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Job Card Completion</Button>
-            </Link>
-            <Link href="/dyeing/job-card-issue" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Job Card Issue</Button>
-            </Link>
             <Link href="/home" passHref>
               <Button width="full" colorScheme="teal" justifyContent="flex-start" textAlign="left">Home</Button>
             </Link>

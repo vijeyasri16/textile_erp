@@ -31,7 +31,26 @@ const InvoicePage: React.FC = () => {
   const [narration, setNarration] = useState('');
   const [reference, setReference] = useState('');
   const [dcNo, setDcNo] = useState('');
-  const [tax, setTax] = useState('');
+  const [tax, setTax] = useState('0');
+  const [details, setDetails] = useState([{ rate: '', weight: '', amount: 0 }]);
+
+  const handleRateChange = (index: number, value: string) => {
+    const newDetails = [...details];
+    newDetails[index].rate = value;
+    newDetails[index].amount = parseFloat(value) * parseFloat(newDetails[index].weight || '0');
+    setDetails(newDetails);
+  };
+
+  const handleWeightChange = (index: number, value: string) => {
+    const newDetails = [...details];
+    newDetails[index].weight = value;
+    newDetails[index].amount = parseFloat(value) * parseFloat(newDetails[index].rate || '0');
+    setDetails(newDetails);
+  };
+
+  const subtotal = details.reduce((sum, item) => sum + item.amount, 0);
+  const gstAmount = (subtotal * parseFloat(tax)) / 100;
+  const grandTotal = subtotal + gstAmount;
 
   return (
     <Box maxW="1200px" mx="auto" mt={8} p={4} boxShadow="md" borderRadius="md">
@@ -65,8 +84,7 @@ const InvoicePage: React.FC = () => {
           <FormLabel>Reference:</FormLabel>
           <Input type="text" value={reference} onChange={(e) => setReference(e.target.value)} />
         </FormControl>
-      </Grid>
-      
+      </Grid><br></br><br></br>
       <Heading size="md" my={4}>Details</Heading>
       <Box overflowX="auto">
         <Table variant="simple" size="md">
@@ -85,8 +103,7 @@ const InvoicePage: React.FC = () => {
               <Th>Process</Th>
               <Th>Rolls</Th>
               <Th>Weight</Th>
-              <Th>Rate</Th>
-              <Th>Amount</Th>
+
             </Tr>
           </Thead>
           <Tbody>
@@ -104,51 +121,55 @@ const InvoicePage: React.FC = () => {
           <Td></Td>
           <Td></Td>
           <Td></Td>
-          <Td></Td>
-          <Td></Td></Tr>
+</Tr>
           </Tbody>
         </Table>
       </Box>
 
-      <Heading size="md" my={4}>Tax Details</Heading>
-      <Box overflowX="auto">
-        <Table variant="simple" size="md">
-          <Thead>
-            <Tr>
-              <Th>Tax%</Th>
-              <Th>Ass amt</Th>
-              <Th>Amount</Th>
+      <Table variant="simple" size="md">
+        <Thead>
+          <Tr>
+            <Th>S.No</Th>
+            <Th>Rate</Th>
+            <Th>Weight</Th>
+            <Th>Amount</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {details.map((item, index) => (
+            <Tr key={index}>
+              <Td>{index + 1}</Td>
+              <Td><Input type="number" value={item.rate} onChange={(e) => handleRateChange(index, e.target.value)} /></Td>
+              <Td><Input type="number" value={item.weight} onChange={(e) => handleWeightChange(index, e.target.value)} /></Td>
+              <Td>{item.amount.toFixed(2)}</Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td></Td>
-              <Td></Td>
-              <Td></Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight="bold">Subtotal</Td>
-              <Td></Td>
-              <Td></Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight="bold">Round Off</Td>
-              <Td></Td>
-              <Td></Td>
-            </Tr>
-            <Tr>
-              <Td fontWeight="bold">Grand Total</Td>
-              <Td></Td>
-              <Td></Td>
-            </Tr>
-          </Tbody>
-        </Table>
+          ))}
+        </Tbody>
+      </Table>
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4} mt={4}>
+      <Box mt={6}>
+        <FormControl>
+          <FormLabel>Tax:</FormLabel>
+          <Select value={tax} onChange={(e) => setTax(e.target.value)}>
+            <option value="0">0%</option>
+            <option value="5">5%</option>
+            <option value="12">12%</option>
+            <option value="18">18%</option>
+            <option value="28">28%</option>
+          </Select>
+        </FormControl>
       </Box>
-<br></br>
+      <Box mt={6}>
+      <Heading size="md" mt={4}>Grand Total: {grandTotal.toFixed(2)}</Heading></Box></Grid>
+
       <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4} mt={4}>
         <FormControl>
           <FormLabel>Payment Terms:</FormLabel>
-          <Input type="text" value={paymentTerms} onChange={(e) => setPaymentTerms(e.target.value)} />
+          <Select value={paymentTerms} onChange={(e) => setPaymentTerms(e.target.value)}>
+            <option>Cash</option>
+            <option>Credit</option>
+            <option>Net 30</option>
+          </Select>
         </FormControl>
         <FormControl>
           <FormLabel>Credit Days:</FormLabel>
@@ -164,33 +185,16 @@ const InvoicePage: React.FC = () => {
         </FormControl>
       </Grid>
 
-      <Box mt={6} textAlign="center">
-        <Button colorScheme="blue">View Invoice</Button>
-        <Button colorScheme="green" ml={2}>Consolidate Invoice</Button>
-        <Button colorScheme="purple" ml={2}>Order Summary</Button>
-        <Button colorScheme="yellow" ml={2}>Generate e-Invoice</Button>
-        <Button colorScheme="red" ml={2}>Cancel e-Invoice</Button>
-      </Box>
+      
 
       <Box mt={6} textAlign="center">
-        <Box display="flex" justifyContent="center" alignItems="center" gap={4} flexWrap="wrap">
-        <Box display="flex" alignItems="center">
-        <FormLabel mb="0" mr={2}>Tax:</FormLabel>
-          <Select value={tax} onChange={(e) => setTax(e.target.value)} width="100px">
-            <option>GST</option>
-          </Select>
+        <Button colorScheme="teal">Save</Button>
+        <Button colorScheme="teal">Clear</Button>
+        <Button colorScheme="red" ml={2}>Delete</Button>
+        <Link href="/processing" passHref>
+          <Button colorScheme="teal" ml={2}>Exit</Button>
+        </Link>
       </Box>
-    
-    <Button colorScheme="teal">Save</Button>
-    <Button colorScheme="gray">Print</Button>
-    <Button colorScheme="gray">Clear</Button>
-    <Button colorScheme="red">Delete</Button>
-    <Link href="/processing" passHref>
-      <Button colorScheme="teal">Exit</Button>
-    </Link>
-  </Box>
-</Box>
-
     </Box>
   );
 };

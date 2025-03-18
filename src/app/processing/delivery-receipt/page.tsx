@@ -27,7 +27,6 @@ const DeliveryReceipt: React.FC = () => {
   const [reference, setReference] = useState('');
   const [type, setType] = useState('');
   const [deliveryTo, setDeliveryTo] = useState('');
-  const [customer, setCustomer] = useState('');
   const [jobNo, setJobNo] = useState('');
   const [billingName, setBillingName] = useState('');
   const [narration, setNarration] = useState('');
@@ -68,10 +67,6 @@ const DeliveryReceipt: React.FC = () => {
             <option>Customer A</option>
             <option>Customer B</option>
           </Select>
-        </FormControl>
-        <FormControl>
-          <FormLabel>Customer:</FormLabel>
-          <Input type="text" value={customer} onChange={(e) => setCustomer(e.target.value)} />
         </FormControl>
         <FormControl>
           <FormLabel>Job No:</FormLabel>
@@ -170,7 +165,6 @@ const DeliveryReceipt: React.FC = () => {
       
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue">Save</Button>
-        <Button colorScheme="green" ml={2}>Print</Button>
         <Button colorScheme="gray" ml={2}>Clear</Button>
         <Button colorScheme="red" ml={2}>Delete</Button>
         <Link href="/processing" passHref>
