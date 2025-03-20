@@ -68,6 +68,11 @@ export default function HomePage() {
               Processing
             </Button>
           </Link>
+          <Link href="/login" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Login
+            </Button>
+          </Link>
           
         </VStack>
       </Box>

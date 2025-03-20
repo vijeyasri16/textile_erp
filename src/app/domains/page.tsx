@@ -41,7 +41,9 @@ export default function DomainsPage() {
             <Link href="/domains/supplier" passHref>
               <Button width="full" colorScheme="orange" justifyContent="flex-start" textAlign="left">Supplier</Button>
             </Link>
-         
+            <Link href="/domains/employee" passHref>
+              <Button width="full" colorScheme="orange" justifyContent="flex-start" textAlign="left">Employee</Button>
+            </Link>
             <Link href="/home" passHref>
               <Button width="full" colorScheme="gray" justifyContent="flex-start" textAlign="left">Home</Button>
             </Link>
