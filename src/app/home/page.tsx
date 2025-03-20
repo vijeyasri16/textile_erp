@@ -33,6 +33,11 @@ export default function HomePage() {
       {isOpen && (
         <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20}>
         <VStack spacing={4} align="stretch">
+        <Link href="/domains" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Domains
+            </Button>
+          </Link>
           <Link href="/collection" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
               Collection
@@ -63,6 +68,7 @@ export default function HomePage() {
               Processing
             </Button>
           </Link>
+          
         </VStack>
       </Box>
       

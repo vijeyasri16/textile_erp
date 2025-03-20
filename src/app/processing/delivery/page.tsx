@@ -21,8 +21,17 @@ export default function DeliveryPage() {
   const [styleNo, setStyleNo] = useState('');
   
   const [deliveryDetails, setDeliveryDetails] = useState([
-    { inwNo: '123', custOrdNo: '456', custDCNo: '789', jobCard: 'JC001', fabric: 'Cotton', colour: 'White', greigeDia: '32', finishRolls: '10', weight: '200', greigeWeightLoss: '5%', process: 'Dyeing' }
+    { inwNo: '123', custOrdNo: '456', custDCNo: '789', jobCard: 'JC001', fabric: 'Cotton', colour: 'White', greigeDia: '32', finishRolls: '10', greigeWeight: '200', greigeWeightLoss: '5%', process: 'Dyeing' ,weight:''}
   ]);
+
+  const handleWeightChange = (index: number, value: string) => {
+    setDeliveryDetails((prevDetails) =>
+      prevDetails.map((detail, i) =>
+        i === index ? { ...detail, weight: value } : detail
+      )
+    );
+  };
+  
 
   return (
     <Box maxW="1200px" mx="auto" mt={8} p={4} boxShadow="md" borderRadius="md">
@@ -46,7 +55,7 @@ export default function DeliveryPage() {
         </FormControl>
         <FormControl><FormLabel>Job No</FormLabel><Input value={jobNo} onChange={(e) => setJobNo(e.target.value)} /></FormControl>
       </Grid>
-      
+      <Box overflowX="auto">
       <Heading size="md" my={4}>Delivery Details</Heading>
       <Table variant="simple" size="md">
         <Thead>
@@ -60,6 +69,7 @@ export default function DeliveryPage() {
             <Th>Colour</Th>
             <Th>Greige Dia</Th>
             <Th>Finish Rolls</Th>
+            <Th>Greige Weight</Th>
             <Th>Weight</Th>
             <Th>Greige Weight Loss</Th>
             <Th>Process</Th>
@@ -77,13 +87,20 @@ export default function DeliveryPage() {
               <Td>{detail.colour}</Td>
               <Td>{detail.greigeDia}</Td>
               <Td>{detail.finishRolls}</Td>
-              <Td>{detail.weight}</Td>
+              <Td>{detail.greigeWeight}</Td>
+              <Td>
+                <Input
+                  type="text"
+                  value={detail.weight}
+                  onChange={(e) => handleWeightChange(index, e.target.value)}
+                />
+              </Td>
               <Td>{detail.greigeWeightLoss}</Td>
               <Td>{detail.process}</Td>
             </Tr>
           ))}
         </Tbody>
-      </Table>
+      </Table></Box>
 
       <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4} mt={4}>
         <FormControl><FormLabel>Billing Name</FormLabel><Input value={billingName} onChange={(e) => setBillingName(e.target.value)} /></FormControl>

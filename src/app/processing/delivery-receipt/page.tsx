@@ -87,9 +87,8 @@ const DeliveryReceipt: React.FC = () => {
                   <Th>Fabric</Th>
                   <Th>Colour</Th>
                   <Th>Greige Dia</Th>
-                  <Th>Finish</Th>
-                  <Th>Tot Rolls</Th>
-                  <Th>Rolls</Th>
+                  <Th>Finish Rolls</Th>
+                  
                   <Th>Weight</Th>
                   <Th>Greige Weight</Th>
                   <Th>Loss %</Th>
@@ -106,8 +105,7 @@ const DeliveryReceipt: React.FC = () => {
                     <Td></Td>
                     <Td></Td>
                     <Td></Td>
-                    <Td></Td>
-                    <Td></Td>
+                    
                     <Td></Td>
                     <Td></Td>
                     <Td></Td>

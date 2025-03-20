@@ -18,6 +18,14 @@ import {
   Grid,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+
+interface ProductionRow {
+  prodType: string;
+  process: string;
+  weight: string;
+  remarks: string;
+}
+
 export default function FinishingProduction() {
   const [machine, setMachine] = useState('');
   const [date, setDate] = useState('');
@@ -25,10 +33,24 @@ export default function FinishingProduction() {
   const [supervisor, setSupervisor] = useState('');
   const [operator, setOperator] = useState('');
 
+  const [rows, setRows] = useState<ProductionRow[]>([
+    { prodType: '', process: '', weight: '', remarks: '' }
+  ]);
+
+  const handleInputChange = (index: number, field: keyof ProductionRow, value: string) => {
+    const newRows = [...rows];
+    newRows[index] = { ...newRows[index], [field]: value };
+    setRows(newRows);
+  };
+
+  const handleAddRow = () => {
+    setRows([...rows, { prodType: '', process: '', weight: '', remarks: '' }]);
+  };
+
   return (
     <Box maxW="1200px" mx="auto" mt={8} p={4} boxShadow="md" borderRadius="md">
       <Heading mb={4}>Finishing Production</Heading>
-      
+
       <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={4}>
         <FormControl>
           <FormLabel>Machine</FormLabel>
@@ -64,15 +86,18 @@ export default function FinishingProduction() {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>1</Td>
-              <Td></Td>
-              <Td></Td>
-              <Td></Td>
-              <Td></Td>
-            </Tr>
+            {rows.map((row, index) => (
+              <Tr key={index}>
+                <Td>{index + 1}</Td>
+                <Td><Input value={row.prodType} onChange={(e) => handleInputChange(index, 'prodType', e.target.value)} /></Td>
+                <Td><Input value={row.process} onChange={(e) => handleInputChange(index, 'process', e.target.value)} /></Td>
+                <Td><Input value={row.weight} onChange={(e) => handleInputChange(index, 'weight', e.target.value)} /></Td>
+                <Td><Input value={row.remarks} onChange={(e) => handleInputChange(index, 'remarks', e.target.value)} /></Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
+        <Button colorScheme="teal" mt={4} onClick={handleAddRow}>Add</Button>
       </Box>
 
       <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4} mt={4}>

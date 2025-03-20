@@ -21,6 +21,7 @@ import {
 import Link from 'next/link';
 
 const InvoicePage: React.FC = () => {
+  const [jobNo, setJobNo] = useState('');
   const [invoiceNo, setInvoiceNo] = useState('');
   const [date, setDate] = useState('');
   const [customer, setCustomer] = useState('');
@@ -61,6 +62,10 @@ const InvoicePage: React.FC = () => {
           <FormLabel>Invoice No:</FormLabel>
           <Input type="text" value={invoiceNo} onChange={(e) => setInvoiceNo(e.target.value)} />
         </FormControl>
+        <FormControl>
+                  <FormLabel>Job No:</FormLabel>
+                  <Input type="text" value={jobNo} onChange={(e) => setJobNo(e.target.value)} />
+                </FormControl>
         <FormControl>
           <FormLabel>DC No:</FormLabel>
           <Input type="text" value={dcNo} onChange={(e) => setDcNo(e.target.value)} />

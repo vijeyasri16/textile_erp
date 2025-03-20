@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import React, { useState } from 'react';
 import { 
@@ -22,6 +22,16 @@ import {
 } from '@chakra-ui/react';
 import Link from 'next/link';
 
+// Define the type for rows
+interface Row {
+  billNo: string;
+  billAmount: string;
+  prevCollected: string;
+  prevBalance: string;
+  curAmount: string;
+  curBalance: string;
+}
+
 const CollectionVoucherPage: React.FC = () => {
   const [voucherNo, setVoucherNo] = useState('');
   const [date, setDate] = useState('');
@@ -34,6 +44,22 @@ const CollectionVoucherPage: React.FC = () => {
   const [amount, setAmount] = useState('');
   const [unAdjustAmt, setUnAdjustAmt] = useState('');
   const [narration, setNarration] = useState('');
+
+  // Move useState inside the component
+  const [rows, setRows] = useState<Row[]>([
+    { billNo: '', billAmount: '', prevCollected: '', prevBalance: '', curAmount: '', curBalance: '' }
+  ]);
+
+  // Fix handleInputChange
+  const handleInputChange = (index: number, field: keyof Row, value: string) => {
+    const newRows = [...rows];
+    newRows[index] = { ...newRows[index], [field]: value };
+    setRows(newRows);
+  };
+
+  const handleAddRow = () => {
+    setRows([...rows, { billNo: '', billAmount: '', prevCollected: '', prevBalance: '', curAmount: '', curBalance: '' }]);
+  };
 
   return (
     <Box maxW="1200px" mx="auto" mt={8} p={4} boxShadow="md" borderRadius="md">
@@ -57,7 +83,7 @@ const CollectionVoucherPage: React.FC = () => {
         </FormControl>
       </Grid>
 
-      <Heading size="md" mt={6}>Payment Mode</Heading><br></br>
+      <Heading size="md" mt={6}>Payment Mode</Heading><br />
       <RadioGroup onChange={setPaymentMode} value={paymentMode}>
         <Stack direction="row">
           <Radio value="Cash">Cash</Radio>
@@ -69,7 +95,7 @@ const CollectionVoucherPage: React.FC = () => {
 
       {paymentMode !== 'Cash' && (
         <Box mt={4}>
-          <Heading size="md">Cheque Details</Heading>< br></br>
+          <Heading size="md">Cheque Details</Heading><br />
           <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
             <FormControl>
               <FormLabel>No:</FormLabel>
@@ -93,52 +119,54 @@ const CollectionVoucherPage: React.FC = () => {
           <Input type="text" value={amount} onChange={(e) => setAmount(e.target.value)} />
           <Button colorScheme="blue" mt={2}>Auto Fill</Button>
         </FormControl>
-        
-        
-       
       </Grid>
-      
-      
 
-     <Heading size="md" my={4}>Items</Heading>
-           <Box overflowX="auto">
-             <Table variant="simple" size="md">
-        <Thead>
-          <Tr>
-            <Th>S.No</Th>
-            <Th>Bill No</Th>
-            <Th>Bill Amount</Th>
-            <Th>Prev Collected</Th>
-            <Th>Prev Balance</Th>
-            <Th>Cur Amount</Th>
-            <Th>Cur Balance</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          <Tr>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
-            <Td></Td>
-          </Tr>
-        </Tbody>
-      </Table></Box>
+      <Heading size="md" my={4}>Items</Heading>
+      <Box overflowX="auto">
+        <Table variant="simple" size="md">
+          <Thead>
+            <Tr>
+              <Th>S.No</Th>
+              <Th>Bill No</Th>
+              <Th>Bill Amount</Th>
+              <Th>Prev Collected</Th>
+              <Th>Prev Balance</Th>
+              <Th>Cur Amount</Th>
+              <Th>Cur Balance</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {rows.map((row, index) => (
+              <Tr key={index}>
+                <Td>{index + 1}</Td>
+                {Object.keys(row).map((field, i) => (
+                  <Td key={i}>
+                    <Input
+                      value={row[field as keyof Row]}
+                      onChange={(e) => handleInputChange(index, field as keyof Row, e.target.value)}
+                    />
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+        <Button colorScheme="teal" mt={4} onClick={handleAddRow}>Add Row</Button>
+      </Box>
+
       <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4} mt={4}>
-      <FormControl mt={4}>
+        <FormControl mt={4}>
           <FormLabel>Un Adjust Amt:</FormLabel>
           <Input type="text" value={unAdjustAmt} onChange={(e) => setUnAdjustAmt(e.target.value)} />
         </FormControl>
-      <FormControl mt={4}>
-        <FormLabel>Narration:</FormLabel>
-        <Textarea value={narration} onChange={(e) => setNarration(e.target.value)} />
-      </FormControl></Grid>
+        <FormControl mt={4}>
+          <FormLabel>Narration:</FormLabel>
+          <Textarea value={narration} onChange={(e) => setNarration(e.target.value)} />
+        </FormControl>
+      </Grid>
 
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue">Save</Button>
-        <Button colorScheme="green" ml={2}>Print</Button>
         <Button colorScheme="gray" ml={2}>Clear</Button>
         <Button colorScheme="red" ml={2}>Delete</Button>
         <Link href="/collection" passHref>
