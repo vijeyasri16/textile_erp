@@ -22,7 +22,7 @@ const EditCustomer: React.FC = () => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await fetch(`http://localhost:5500/customers/${id}`);
+        const response = await fetch(`http://localhost:6660/customers/${id}`);
         if (!response.ok) throw new Error('Failed to fetch customer');
         const data = await response.json();
         setCustomer(data);
@@ -42,7 +42,7 @@ const EditCustomer: React.FC = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/customers/${id}`, {
+      const response = await fetch(`http://localhost:6660/customers/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(customer),

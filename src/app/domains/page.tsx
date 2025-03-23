@@ -48,7 +48,7 @@ export default function DomainsPage() {
             />
 
             {/* 🔹 Button to Navigate to Update Page */}
-            <Link href={customerId ? `domain/customers/${customerId}/edit` : '#'} passHref>
+            <Link href={customerId ? `domains/customers/${customerId}/edit` : '#'} passHref>
               <Button 
                 width="full" 
                 colorScheme="yellow" 

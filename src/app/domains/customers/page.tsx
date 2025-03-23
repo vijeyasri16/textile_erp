@@ -29,7 +29,7 @@ const CustomerList: React.FC = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await fetch('http://localhost:5500/customers');
+        const response = await fetch('http://localhost:6660/customers');
         if (!response.ok) throw new Error('Failed to fetch customers');
         const data = await response.json();
         setCustomers(data);
@@ -46,7 +46,7 @@ const CustomerList: React.FC = () => {
     const confirmed = confirm('Are you sure you want to delete this customer?');
     if (confirmed) {
       try {
-        const response = await fetch(`http://localhost:5000/customers/${id}`, {
+        const response = await fetch(`http://localhost:6660/customers/${id}`, {
           method: 'DELETE',
         });
 

@@ -17,7 +17,7 @@ const CustomerDetail: React.FC = () => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await fetch(`http://localhost:5500/customers/${id}`);
+        const response = await fetch(`http://localhost:6660/customers/${id}`);
         if (!response.ok) {
           throw new Error('Customer not found');
         }

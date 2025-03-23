@@ -22,7 +22,7 @@ const AddCustomer: React.FC = () => {
 
   const handleAddCustomer = async () => {
     try {
-      const response = await fetch('http://localhost:5500/customers', {
+      const response = await fetch('http://localhost:6660/customers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, phone, deliveryAddress }),
