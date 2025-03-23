@@ -13,3 +13,28 @@ model Customer {
   phone           String
   deliveryAddress String
 }
+
+model Employee {
+  id       Int     @id @default(autoincrement())
+  name     String
+  password String
+}
+
+model Fabric {
+  id          Int     @id @default(autoincrement())
+  name        String
+  composition String
+}
+
+model Machine {
+  id           Int     @id @default(autoincrement())
+  name         String
+  processLinked String
+}
+
+model Supplier {
+  id      Int     @id @default(autoincrement())
+  name    String
+  contact String
+  address String
+}
