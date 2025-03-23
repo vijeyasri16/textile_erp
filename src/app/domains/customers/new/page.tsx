@@ -30,7 +30,7 @@ const AddCustomer: React.FC = () => {
 
       if (response.ok) {
         alert('Customer added successfully!');
-        router.push('/customers'); // Redirect to customer list
+        router.push('/domains/customers'); // Redirect to customer list
       } else {
         console.error('Failed to add customer');
       }
@@ -60,7 +60,7 @@ const AddCustomer: React.FC = () => {
 
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue" onClick={handleAddCustomer}>Create Customer</Button>
-        <Link href="/customers" passHref>
+        <Link href="/domains/customers" passHref>
           <Button colorScheme="teal" ml={2}>Cancel</Button>
         </Link>
       </Box>

@@ -5,9 +5,9 @@ import { Box, Flex, Heading, VStack, Button, IconButton, Text, Input } from '@ch
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 
-export default function InventoryPage() {
+export default function GoodsPage() {
   const [isOpen, setIsOpen] = useState(false);
-  const [rawMaterialId, setRawMaterialId] = useState('');
+  const [goodsInwardId, setGoodsInwardId] = useState(''); // State for Goods Inward ID input
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -30,32 +30,34 @@ export default function InventoryPage() {
       {isOpen && (
         <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20} overflowY="auto">
           <VStack spacing={4} align="stretch">
-            {/* Raw Materials Management */}
-            <Heading size="sm" mb={2} color="gray.600">Raw Materials Management</Heading>
-            <Link href="Inventory/rawmaterials" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start">Raw Material List</Button>
+            
+            {/* Goods Management */}
+            <Heading size="sm" mt={6} mb={2} color="gray.600">Goods Management</Heading>
+            <Link href="goods_inward" passHref>
+              <Button width="full" colorScheme="blue" justifyContent="flex-start">Goods List</Button>
             </Link>
-            <Link href="Inventory/rawmaterials/new" passHref>
-              <Button width="full" colorScheme="green" justifyContent="flex-start">Add Raw Material</Button>
+            <Link href="goods_inward/new" passHref>
+              <Button width="full" colorScheme="green" justifyContent="flex-start">Add Goods</Button>
             </Link>
             <Input 
-              placeholder="Enter Raw Material ID"
-              value={rawMaterialId}
-              onChange={(e) => setRawMaterialId(e.target.value)}
+              placeholder="Enter Goods ID"
+              value={goodsInwardId}
+              onChange={(e) => setGoodsInwardId(e.target.value)}
               size="sm"
             />
-            <Link href={rawMaterialId ? `Inventory/rawmaterials/${rawMaterialId}/edit` : '#'} passHref>
-              <Button width="full" colorScheme="yellow" justifyContent="flex-start" isDisabled={!rawMaterialId}>
-                Update Raw Material
+            <Link href={goodsInwardId ? `goods_inward/${goodsInwardId}/edit` : '#'} passHref>
+              <Button width="full" colorScheme="yellow" justifyContent="flex-start" isDisabled={!goodsInwardId}>
+                Update Goods
               </Button>
             </Link>
+
           </VStack>
         </Box>
       )}
 
       {/* Main Content */}
       <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">
-        <Heading size="2xl" color="gray.700">Inventory Management</Heading>
+        <Heading size="2xl" color="gray.700">Goods Navigation</Heading>
       </Flex>
     </Flex>
   );
