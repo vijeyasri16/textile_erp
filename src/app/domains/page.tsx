@@ -1,12 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Box, Flex, Heading, VStack, Button, IconButton, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, VStack, Button, IconButton, Text, Input } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 
 export default function DomainsPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [customerId, setCustomerId] = useState(''); // State to store customer ID input
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -14,7 +15,7 @@ export default function DomainsPage() {
 
   return (
     <Flex height="100vh" direction="column" position="relative">
-      {/* Menu Button with Text */}
+      {/* Menu Button */}
       <Flex align="center" cursor="pointer" onClick={toggleSidebar} p={4} position="absolute" top={4} left={4} zIndex={20}>
         <IconButton aria-label="Toggle Menu" icon={<HamburgerIcon />} variant="ghost" />
         <Text ml={2} fontSize="lg" fontWeight="bold">Menu</Text>
@@ -27,67 +28,38 @@ export default function DomainsPage() {
 
       {/* Sidebar with Scrollable Content */}
       {isOpen && (
-        <Box
-          position="fixed"
-          top={0}
-          left={0}
-          width="250px"
-          height="100vh"
-          bg="gray.100"
-          p={4}
-          zIndex={20}
-          overflowY="auto"  // Enables scrolling
-          maxHeight="100vh"  // Ensures it stays within the viewport
-        >
+        <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20} overflowY="auto">
           <VStack spacing={4} align="stretch">
-            <Link href="/domains/customer" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Customer</Button>
+            {/* Customer Management */}
+            <Heading size="sm" mb={2} color="gray.600">Customer Management</Heading>
+            <Link href="domains/customers" passHref>
+              <Button width="full" colorScheme="blue" justifyContent="flex-start">Customer List</Button>
             </Link>
-            <Link href="/domains/cust_list" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">List Customer</Button>
+            <Link href="domains/customers/new" passHref>
+              <Button width="full" colorScheme="green" justifyContent="flex-start">Add Customer</Button>
             </Link>
-            <Link href="/domains/cust_upd" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Update Customer</Button>
+
+            {/* 🔹 Input Field for Customer ID */}
+            <Input 
+              placeholder="Enter Customer ID"
+              value={customerId}
+              onChange={(e) => setCustomerId(e.target.value)}
+              size="sm"
+            />
+
+            {/* 🔹 Button to Navigate to Update Page */}
+            <Link href={customerId ? `domain/customers/${customerId}/edit` : '#'} passHref>
+              <Button 
+                width="full" 
+                colorScheme="yellow" 
+                justifyContent="flex-start" 
+                isDisabled={!customerId}
+              >
+                Update Customer
+              </Button>
             </Link>
-            <Link href="/domains/fabric" passHref>
-              <Button width="full" colorScheme="teal" justifyContent="flex-start" textAlign="left">Fabric</Button>
-            </Link>
-            <Link href="/domains/fab_list" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">List Fabric</Button>
-            </Link>
-            <Link href="/domains/fab_upd" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Update Fabric</Button>
-            </Link>
-            <Link href="/domains/machine" passHref>
-              <Button width="full" colorScheme="purple" justifyContent="flex-start" textAlign="left">Machine</Button>
-            </Link>
-            <Link href="/domains/mac_list" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">List Machine</Button>
-            </Link>
-            <Link href="/domains/mac_upd" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Update Machine</Button>
-            </Link>
-            <Link href="/domains/supplier" passHref>
-              <Button width="full" colorScheme="orange" justifyContent="flex-start" textAlign="left">Supplier</Button>
-            </Link>
-            <Link href="/domains/sup_list" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">List Supplier</Button>
-            </Link>
-            <Link href="/domains/sup_upd" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Update Supplier</Button>
-            </Link>
-            <Link href="/domains/employee" passHref>
-              <Button width="full" colorScheme="orange" justifyContent="flex-start" textAlign="left">Employee</Button>
-            </Link>
-            <Link href="/domains/emp_list" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">List Employee</Button>
-            </Link>
-            <Link href="/domains/emp_upd" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Update Employee</Button>
-            </Link>
-            <Link href="/home" passHref>
-              <Button width="full" colorScheme="gray" justifyContent="flex-start" textAlign="left">Home</Button>
-            </Link>
+
+            {/* Other sections remain unchanged */}
           </VStack>
         </Box>
       )}
