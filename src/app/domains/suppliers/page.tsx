@@ -3,7 +3,16 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
-  Box, Button, Heading, Table, Thead, Tbody, Tr, Th, Td, IconButton,
+  Box,
+  Button,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  IconButton,
 } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
 
@@ -33,7 +42,8 @@ const SupplierList: React.FC = () => {
   }, []);
 
   const handleDelete = async (id: number) => {
-    if (confirm('Are you sure you want to delete this supplier?')) {
+    const confirmed = confirm('Are you sure you want to delete this supplier?');
+    if (confirmed) {
       try {
         const response = await fetch(`http://localhost:6660/suppliers/${id}`, {
           method: 'DELETE',
