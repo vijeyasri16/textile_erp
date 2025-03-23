@@ -46,7 +46,7 @@ const MachinePage: React.FC = () => {
           <FormLabel>Process Linked:</FormLabel>
           <Grid templateColumns="3fr auto" gap={2}>
             <Input type="text" value={process} onChange={(e) => setProcess(e.target.value)} />
-            <Button colorScheme="blue" onClick={handleAddProcess}>Add</Button>
+          
           </Grid>
         </FormControl>
 
