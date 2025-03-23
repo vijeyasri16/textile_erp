@@ -31,10 +31,9 @@ model Machine {
   name         String
   processLinked String
 }
-
 model Supplier {
-  id      Int     @id @default(autoincrement())
-  name    String
-  contact String
-  address String
+  id              Int     @id @default(autoincrement())
+  name            String
+  phone           String
+  supplierAddress String
 }

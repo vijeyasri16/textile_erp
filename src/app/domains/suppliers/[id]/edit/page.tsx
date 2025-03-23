@@ -16,8 +16,7 @@ import {
 const EditSupplier: React.FC = () => {
   const { id } = useParams();
   const router = useRouter();
-
-  const [supplier, setSupplier] = useState({ name: '', phone: '', deliveryAddress: '' });
+  const [supplier, setSupplier] = useState({ name: '', phone: '', supplierAddress: '' });
 
   useEffect(() => {
     const fetchSupplier = async () => {
@@ -68,14 +67,14 @@ const EditSupplier: React.FC = () => {
         <Input type="text" name="name" value={supplier.name} onChange={handleChange} />
       </FormControl>
 
-      <FormControl mt={4}>
+      <FormControl>
         <FormLabel>Phone No:</FormLabel>
         <Input type="text" name="phone" value={supplier.phone} onChange={handleChange} />
       </FormControl>
 
-      <FormControl mt={4}>
-        <FormLabel>Delivery Address:</FormLabel>
-        <Textarea name="deliveryAddress" value={supplier.deliveryAddress} onChange={handleChange} />
+      <FormControl>
+        <FormLabel>Supplier Address:</FormLabel>
+        <Textarea name="supplierAddress" value={supplier.supplierAddress} onChange={handleChange} />
       </FormControl>
 
       <Flex mt={6} justify="space-between">

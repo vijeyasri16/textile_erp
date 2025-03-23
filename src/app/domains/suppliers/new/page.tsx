@@ -18,14 +18,14 @@ const AddSupplier: React.FC = () => {
   const router = useRouter();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [supplierAddress, setSupplierAddress] = useState('');
 
   const handleAddSupplier = async () => {
     try {
       const response = await fetch('http://localhost:6660/suppliers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, phone, deliveryAddress }),
+        body: JSON.stringify({ name, phone, supplierAddress }),
       });
 
       if (response.ok) {
@@ -53,8 +53,8 @@ const AddSupplier: React.FC = () => {
           <Input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
         </FormControl>
         <FormControl>
-          <FormLabel>Delivery Address:</FormLabel>
-          <Textarea value={deliveryAddress} onChange={(e) => setDeliveryAddress(e.target.value)} />
+          <FormLabel>Supplier Address:</FormLabel>
+          <Textarea value={supplierAddress} onChange={(e) => setSupplierAddress(e.target.value)} />
         </FormControl>
       </Grid>
 

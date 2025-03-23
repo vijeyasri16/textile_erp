@@ -20,7 +20,7 @@ interface Supplier {
   id: number;
   name: string;
   phone: string;
-  deliveryAddress: string;
+  supplierAddress: string;
 }
 
 const SupplierList: React.FC = () => {
@@ -71,7 +71,7 @@ const SupplierList: React.FC = () => {
           <Tr>
             <Th>Name</Th>
             <Th>Phone</Th>
-            <Th>Delivery Address</Th>
+            <Th>Supplier Address</Th>
             <Th>Actions</Th>
           </Tr>
         </Thead>
@@ -84,7 +84,7 @@ const SupplierList: React.FC = () => {
                 </Link>
               </Td>
               <Td>{supplier.phone}</Td>
-              <Td>{supplier.deliveryAddress}</Td>
+              <Td>{supplier.supplierAddress}</Td>
               <Td>
                 <Link href={`/suppliers/${supplier.id}/edit`} passHref>
                   <Button colorScheme="yellow" size="sm" mr={2}>Edit</Button>

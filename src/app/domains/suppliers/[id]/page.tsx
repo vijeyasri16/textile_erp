@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 const SupplierDetail: React.FC = () => {
   const { id } = useParams();
-  const [supplier, setSupplier] = useState<{ name: string; phone: string; deliveryAddress: string } | null>(null);
+  const [supplier, setSupplier] = useState<{ name: string; phone: string; supplierAddress: string } | null>(null);
 
   useEffect(() => {
     const fetchSupplier = async () => {
@@ -39,7 +39,7 @@ const SupplierDetail: React.FC = () => {
     <Box maxW="600px" mx="auto" mt={8} p={4} boxShadow="md" borderRadius="md">
       <Heading mb={4}>{supplier.name}</Heading>
       <Text><strong>Phone:</strong> {supplier.phone}</Text>
-      <Text><strong>Address:</strong> {supplier.deliveryAddress}</Text>
+      <Text><strong>Address:</strong> {supplier.supplierAddress}</Text>
 
       <Box mt={6}>
         <Link href={`/suppliers/${id}/edit`} passHref>
