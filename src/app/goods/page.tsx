@@ -33,10 +33,10 @@ export default function GoodsPage() {
             
             {/* Goods Management */}
             <Heading size="sm" mt={6} mb={2} color="gray.600">Goods Management</Heading>
-            <Link href="goods_inward" passHref>
+            <Link href="goodsinwards" passHref>
               <Button width="full" colorScheme="blue" justifyContent="flex-start">Goods List</Button>
             </Link>
-            <Link href="goods_inward/new" passHref>
+            <Link href="goodsinwards/new" passHref>
               <Button width="full" colorScheme="green" justifyContent="flex-start">Add Goods</Button>
             </Link>
             <Input 
@@ -45,7 +45,7 @@ export default function GoodsPage() {
               onChange={(e) => setGoodsInwardId(e.target.value)}
               size="sm"
             />
-            <Link href={goodsInwardId ? `goods_inward/${goodsInwardId}/edit` : '#'} passHref>
+            <Link href={goodsInwardId ? `goodsinwards/${goodsInwardId}/edit` : '#'} passHref>
               <Button width="full" colorScheme="yellow" justifyContent="flex-start" isDisabled={!goodsInwardId}>
                 Update Goods
               </Button>

@@ -1,314 +1,399 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import {
   Box,
   Button,
-  Container,
   Heading,
-  Grid,
   Text,
+  Grid,
+  Flex,
+  Spacer,
   Badge,
   HStack,
-  useToast,
-  Spinner,
-  Center,
   Divider,
-  Card,
-  CardHeader,
-  CardBody,
+  Container,
   Table,
   Thead,
   Tbody,
   Tr,
   Th,
-  Td
+  Td,
+  Spinner,
+  Alert,
+  AlertIcon,
+  Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText,
+  IconButton,
+  Card,
+  CardHeader,
+  CardBody,
+  Stack,
+  useToast
 } from '@chakra-ui/react';
-import { EditIcon, ArrowBackIcon } from '@chakra-ui/icons';
+import { 
+  EditIcon, 
+  ArrowBackIcon, 
+  DownloadIcon, 
+  EmailIcon 
+} from '@chakra-ui/icons';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface Fabric {
-  id: number;
-  fabric: string;
-  color: string;
-  greigeGsm: string;
-  greigeDia: string;
-  finishRolls: string;
-  weight: string;
-  machine: string;
+  gSNo: number;
+  gFabric: string;
+  gColor: string;
+  gGreigeGSM: string;
+  gGreigeDIA: string;
+  gFinishRolls: string;
+  gWeight: string;
+  gMachine: string;
 }
 
 interface Process {
-  id: number;
-  process: string;
+  gSNo: number;
+  gProcess: string;
 }
 
-interface GoodsInward {
+interface GoodsInwardsDetails {
   id: string;
-  inwNo: string;
-  date: string;
-  customer: string;
-  category: string;
-  type: string;
-  custDcNo: string;
-  dcDate: string;
-  custOrdNo: string;
-  vehNo: string;
-  styleRefNo: string;
-  greigeMarkingId: string;
-  marketingBy: string;
-  preparedBy: string;
-  custOrdIncharge: string;
-  oldDoNo: string;
-  majorFabric: string;
-  labNo: string;
-  isLabApproved: boolean;
-  narration: string;
+  gInwNo: string;
+  gDate: string;
+  gCustomer: string;
+  gCategory: string;
+  gType: string;
+  gLabApproved: boolean;
+  gCustDCNo: string;
+  gCustDCDate: string;
+  gCustOrdNo: string;
+  gVehNo: string;
+  gStyleRefNo: string;
+  gGreigeMarkingID: string;
+  gMarketingBy: string;
+  gPreparedBy: string;
+  gCustOrdIncharge: string;
+  gOldDONo: string;
+  gMajorFabric: string;
+  gLabNo: string;
+  gNarration: string;
   fabrics: Fabric[];
   processes: Process[];
 }
 
-export default function GoodsInwardDetailPage({ params }: { params: { id: string } }) {
-  const [goodsInward, setGoodsInward] = useState<GoodsInward | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  const router = useRouter();
   const toast = useToast();
+  const [goodsInwards, setGoodsInwards] = useState<GoodsInwardsDetails | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGoodsInward();
-  }, []);
+    fetchGoodsInwardsDetails();
+  }, [id]);
 
-  const fetchGoodsInward = async () => {
+  const fetchGoodsInwardsDetails = async () => {
+    setIsLoading(true);
+    setError(null);
+    
     try {
-      setIsLoading(true);
-      const response = await fetch(`http://localhost:6660/goodsinward/${params.id}`);
+      const response = await fetch(`http://localhost:6660/goodsinwards/${id}`);
       
       if (!response.ok) {
-        throw new Error('Failed to fetch goods inward details');
+        throw new Error(`Error fetching data: ${response.statusText}`);
       }
       
       const data = await response.json();
-      setGoodsInward(data);
-    } catch (error) {
-      console.error('Error fetching goods inward details:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load goods inward details',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
+      setGoodsInwards(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      console.error('Error fetching goods inwards details:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
+  const handleExport = () => {
+    toast({
+      title: "Export initiated",
+      description: "Goods inwards details are being exported to PDF",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
+    // Actual export functionality would be implemented here
+  };
+
+  const handleEmailSend = () => {
+    toast({
+      title: "Email preparation",
+      description: "Preparing to send goods inwards details via email",
+      status: "info",
+      duration: 3000,
+      isClosable: true,
+    });
+    // Actual email functionality would be implemented here
+  };
+
   if (isLoading) {
     return (
-      <Container maxW="container.xl" py={10}>
-        <Center>
+      <Container maxW="container.xl" py={6}>
+        <Flex justify="center" align="center" height="50vh">
           <Spinner size="xl" />
-        </Center>
+        </Flex>
       </Container>
     );
   }
 
-  if (!goodsInward) {
+  if (error || !goodsInwards) {
     return (
-      <Container maxW="container.xl" py={10}>
-        <Box textAlign="center">
-          <Heading size="md">Goods Inward record not found</Heading>
-          <Link href="/domains/goodsinward" passHref>
-            <Button leftIcon={<ArrowBackIcon />} mt={4}>
-              Back to List
-            </Button>
-          </Link>
-        </Box>
+      <Container maxW="container.xl" py={6}>
+        <Alert status="error" mb={6}>
+          <AlertIcon />
+          {error || "Failed to load goods inwards details"}
+        </Alert>
+        <Button 
+          leftIcon={<ArrowBackIcon />} 
+          onClick={() => router.push('/goodsinwards')}
+        >
+          Back to List
+        </Button>
       </Container>
     );
   }
 
   return (
-    <Container maxW="container.xl" py={5}>
-      <Box shadow="md" borderWidth="1px" p={6} borderRadius="md">
-        <HStack justifyContent="space-between" mb={6}>
-          <Heading size="lg">Goods Inward Details</Heading>
-          <HStack>
-            <Link href="/domains/goodsinward" passHref>
-              <Button leftIcon={<ArrowBackIcon />} variant="outline">
-                Back to List
-              </Button>
-            </Link>
-            <Link href={`/domains/goodsinward/${params.id}/edit`} passHref>
-              <Button leftIcon={<EditIcon />} colorScheme="teal">
-                Edit
-              </Button>
-            </Link>
-          </HStack>
+    <Container maxW="container.xl" py={6}>
+      <Flex mb={6} alignItems="center">
+        <Button 
+          leftIcon={<ArrowBackIcon />} 
+          variant="outline" 
+          onClick={() => router.push('/goodsinwards')}
+          mr={4}
+        >
+          Back
+        </Button>
+        
+        <Heading as="h1" size="lg">
+          Goods Inwards Details
+        </Heading>
+        
+        <Spacer />
+        
+        <HStack spacing={3}>
+          <Button 
+            leftIcon={<DownloadIcon />} 
+            colorScheme="blue" 
+            variant="outline"
+            onClick={handleExport}
+          >
+            Export
+          </Button>
+          <Button 
+            leftIcon={<EmailIcon />} 
+            colorScheme="green" 
+            variant="outline"
+            onClick={handleEmailSend}
+          >
+            Email
+          </Button>
+          <Link href={`/goodsinwards/${id}/edit`} passHref>
+            <Button leftIcon={<EditIcon />} colorScheme="teal">
+              Edit
+            </Button>
+          </Link>
         </HStack>
-
-        <Card mb={6}>
-          <CardHeader>
-            <Heading size="md">Basic Information</Heading>
-          </CardHeader>
-          <CardBody>
-            <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-              <Box>
-                <Text fontWeight="bold">Inw No:</Text>
-                <Text>{goodsInward.inwNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Date:</Text>
-                <Text>{new Date(goodsInward.date).toLocaleDateString()}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Customer:</Text>
-                <Text>{goodsInward.customer}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Category:</Text>
-                <Text>{goodsInward.category}</Text>
-              </Box>
-
-              <Box>
-                <Text fontWeight="bold">Type:</Text>
-                <Text>{goodsInward.type}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Cust DC No:</Text>
-                <Text>{goodsInward.custDcNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">DC Date:</Text>
-                <Text>{goodsInward.dcDate ? new Date(goodsInward.dcDate).toLocaleDateString() : '-'}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Cust Ord No:</Text>
-                <Text>{goodsInward.custOrdNo}</Text>
-              </Box>
-
-              <Box>
-                <Text fontWeight="bold">Veh No:</Text>
-                <Text>{goodsInward.vehNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Style Ref No:</Text>
-                <Text>{goodsInward.styleRefNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Greige Marking ID:</Text>
-                <Text>{goodsInward.greigeMarkingId}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Marketing By:</Text>
-                <Text>{goodsInward.marketingBy}</Text>
-              </Box>
-
-              <Box>
-                <Text fontWeight="bold">Prepared By:</Text>
-                <Text>{goodsInward.preparedBy}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Cust Ord Incharge:</Text>
-                <Text>{goodsInward.custOrdIncharge}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Old DO No:</Text>
-                <Text>{goodsInward.oldDoNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Major Fabric:</Text>
-                <Text>{goodsInward.majorFabric}</Text>
-              </Box>
-
-              <Box>
-                <Text fontWeight="bold">Lab No:</Text>
-                <Text>{goodsInward.labNo}</Text>
-              </Box>
-              <Box>
-                <Text fontWeight="bold">Lab Status:</Text>
-                <Badge colorScheme={goodsInward.isLabApproved ? "green" : "red"}>
-                  {goodsInward.isLabApproved ? "Approved" : "Pending"}
-                </Badge>
-              </Box>
-              <Box gridColumn="span 2">
-                <Text fontWeight="bold">Narration:</Text>
-                <Text>{goodsInward.narration}</Text>
-              </Box>
-            </Grid>
-          </CardBody>
-        </Card>
-
-        <Card mb={6}>
+      </Flex>
+      
+      <Box py={4} px={6} borderWidth="1px" borderRadius="lg" boxShadow="md" bg="white" mb={6}>
+        <Flex flexDirection={{ base: "column", md: "row" }} alignItems="center" mb={3}>
+          <HStack spacing={4}>
+            <Heading as="h2" size="xl">
+              {goodsInwards.gInwNo}
+            </Heading>
+            <Badge colorScheme={goodsInwards.gLabApproved ? "green" : "orange"} fontSize="md" py={1} px={2}>
+              {goodsInwards.gLabApproved ? "Lab Approved" : "Pending Approval"}
+            </Badge>
+          </HStack>
+          <Spacer />
+          <Text color="gray.600" fontSize="md" mt={{ base: 2, md: 0 }}>
+            Created on {formatDate(goodsInwards.gDate)}
+          </Text>
+        </Flex>
+        
+        <Divider my={4} />
+        
+        <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={6} mb={6}>
+          <Stat>
+            <StatLabel>Customer</StatLabel>
+            <StatNumber fontSize="lg">{goodsInwards.gCustomer}</StatNumber>
+          </Stat>
+          
+          <Stat>
+            <StatLabel>Category</StatLabel>
+            <StatNumber fontSize="lg">{goodsInwards.gCategory}</StatNumber>
+          </Stat>
+          
+          <Stat>
+            <StatLabel>Type</StatLabel>
+            <StatNumber fontSize="lg">{goodsInwards.gType}</StatNumber>
+          </Stat>
+        </Grid>
+        
+        <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={4}>
+          <Box>
+            <Text fontWeight="semibold">Cust DC No</Text>
+            <Text>{goodsInwards.gCustDCNo || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">DC Date</Text>
+            <Text>{formatDate(goodsInwards.gCustDCDate) || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Customer Order No</Text>
+            <Text>{goodsInwards.gCustOrdNo || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Vehicle No</Text>
+            <Text>{goodsInwards.gVehNo || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Style Ref No</Text>
+            <Text>{goodsInwards.gStyleRefNo || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Greige Marking ID</Text>
+            <Text>{goodsInwards.gGreigeMarkingID || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Marketing By</Text>
+            <Text>{goodsInwards.gMarketingBy || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Prepared By</Text>
+            <Text>{goodsInwards.gPreparedBy || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Cust Order Incharge</Text>
+            <Text>{goodsInwards.gCustOrdIncharge || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Old DO No</Text>
+            <Text>{goodsInwards.gOldDONo || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Major Fabric</Text>
+            <Text>{goodsInwards.gMajorFabric || '-'}</Text>
+          </Box>
+          
+          <Box>
+            <Text fontWeight="semibold">Lab No</Text>
+            <Text>{goodsInwards.gLabNo || '-'}</Text>
+          </Box>
+        </Grid>
+      </Box>
+      
+      <Stack spacing={6} direction={{ base: "column", lg: "row" }}>
+        <Card flex="2" variant="outline">
           <CardHeader>
             <Heading size="md">Fabrics</Heading>
           </CardHeader>
           <CardBody>
-            <Table variant="simple" size="sm">
-              <Thead>
-                <Tr>
-                  <Th>S.No</Th>
-                  <Th>Fabric</Th>
-                  <Th>Color</Th>
-                  <Th>Greige GSM</Th>
-                  <Th>Greige DIA</Th>
-                  <Th>Finish Rolls</Th>
-                  <Th>Weight</Th>
-                  <Th>Machine</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {goodsInward.fabrics && goodsInward.fabrics.length > 0 ? (
-                  goodsInward.fabrics.map((fabric, index) => (
-                    <Tr key={fabric.id}>
-                      <Td>{index + 1}</Td>
-                      <Td>{fabric.fabric}</Td>
-                      <Td>{fabric.color}</Td>
-                      <Td>{fabric.greigeGsm}</Td>
-                      <Td>{fabric.greigeDia}</Td>
-                      <Td>{fabric.finishRolls}</Td>
-                      <Td>{fabric.weight}</Td>
-                      <Td>{fabric.machine}</Td>
+            {goodsInwards.fabrics && goodsInwards.fabrics.length > 0 ? (
+              <Box overflowX="auto">
+                <Table variant="simple" size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>S.No</Th>
+                      <Th>Fabric</Th>
+                      <Th>Color</Th>
+                      <Th>Greige GSM</Th>
+                      <Th>Greige DIA</Th>
+                      <Th>Finish Rolls</Th>
+                      <Th>Weight</Th>
+                      <Th>Machine</Th>
                     </Tr>
-                  ))
-                ) : (
-                  <Tr>
-                    <Td colSpan={8} textAlign="center">No fabrics found</Td>
-                  </Tr>
-                )}
-              </Tbody>
-            </Table>
+                  </Thead>
+                  <Tbody>
+                    {goodsInwards.fabrics.map((fabric) => (
+                      <Tr key={fabric.gSNo}>
+                        <Td>{fabric.gSNo}</Td>
+                        <Td>{fabric.gFabric}</Td>
+                        <Td>{fabric.gColor}</Td>
+                        <Td>{fabric.gGreigeGSM}</Td>
+                        <Td>{fabric.gGreigeDIA}</Td>
+                        <Td>{fabric.gFinishRolls}</Td>
+                        <Td>{fabric.gWeight}</Td>
+                        <Td>{fabric.gMachine}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+            ) : (
+              <Text color="gray.500">No fabrics added</Text>
+            )}
           </CardBody>
         </Card>
-
-        <Card>
+        
+        <Card flex="1" variant="outline">
           <CardHeader>
             <Heading size="md">Processes</Heading>
           </CardHeader>
           <CardBody>
-            <Table variant="simple" size="sm">
-              <Thead>
-                <Tr>
-                  <Th>S.No</Th>
-                  <Th>Process</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {goodsInward.processes && goodsInward.processes.length > 0 ? (
-                  goodsInward.processes.map((process, index) => (
-                    <Tr key={process.id}>
-                      <Td>{index + 1}</Td>
-                      <Td>{process.process}</Td>
+            {goodsInwards.processes && goodsInwards.processes.length > 0 ? (
+              <Box overflowX="auto">
+                <Table variant="simple" size="sm">
+                  <Thead>
+                    <Tr>
+                      <Th>S.No</Th>
+                      <Th>Process</Th>
                     </Tr>
-                  ))
-                ) : (
-                  <Tr>
-                    <Td colSpan={2} textAlign="center">No processes found</Td>
-                  </Tr>
-                )}
-              </Tbody>
-            </Table>
+                  </Thead>
+                  <Tbody>
+                    {goodsInwards.processes.map((process) => (
+                      <Tr key={process.gSNo}>
+                        <Td>{process.gSNo}</Td>
+                        <Td>{process.gProcess}</Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </Table>
+              </Box>
+            ) : (
+              <Text color="gray.500">No processes added</Text>
+            )}
           </CardBody>
         </Card>
-      </Box>
+      </Stack>
+      
+      {goodsInwards.gNarration && (
+        <Box mt={6} p={4} borderWidth="1px" borderRadius="md">
+          <Heading size="sm" mb={2}>Narration</Heading>
+          <Text>{goodsInwards.gNarration}</Text>
+        </Box>
+      )}
     </Container>
   );
-}
+};
+
+export default GoodsInwardsDetailsPage;
