@@ -7,7 +7,7 @@ import machineRoutes from "./routes/machineRoutes.js";
 import fabricRoutes from "./routes/fabricRoutes.js";
 import employeeRoutes from "./routes/employeeRoutes.js";
 import rawMaterialRoutes from "./routes/rawMaterialRoutes.js";
-import goodsInwardRoutes from "./routes/goodsInwardRoutes.js";
+import goodsInwardRoutes from "./routes/goodsInward.routes.js";
 
 const app = express();
 app.use(cors());
