@@ -80,7 +80,7 @@ const GoodsInwardsListPage: React.FC = () => {
     setError(null);
     
     try {
-      const response = await fetch('http://localhost:6660/goodsinwards');
+      const response = await fetch('http://localhost:6660/goodsInwards/goodsInwards');
       
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);

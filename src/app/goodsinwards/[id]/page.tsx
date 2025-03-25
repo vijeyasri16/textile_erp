@@ -100,7 +100,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
     setError(null);
     
     try {
-      const response = await fetch(`http://localhost:6660/goodsinwards/${id}`);
+      const response = await fetch(`http://localhost:6660/goodsInwards/goodsInwards/${id}`);
       
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
@@ -163,7 +163,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
         </Alert>
         <Button 
           leftIcon={<ArrowBackIcon />} 
-          onClick={() => router.push('/goodsinwards')}
+          onClick={() => router.push('/goodsInwards')}
         >
           Back to List
         </Button>
@@ -177,7 +177,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
         <Button 
           leftIcon={<ArrowBackIcon />} 
           variant="outline" 
-          onClick={() => router.push('/goodsinwards')}
+          onClick={() => router.push('/goodsInwards')}
           mr={4}
         >
           Back
@@ -206,7 +206,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
           >
             Email
           </Button>
-          <Link href={`/goodsinwards/${id}/edit`} passHref>
+          <Link href={`/goodsInwards/${id}/edit`} passHref>
             <Button leftIcon={<EditIcon />} colorScheme="teal">
               Edit
             </Button>

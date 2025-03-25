@@ -4,19 +4,19 @@ import * as goodsInwardsController from "../controllers/goodsInwardsController.j
 const router = express.Router()
 
 // Create a new goods inwards record
-router.post("/goodsinwards", goodsInwardsController.createGoodsInwards)
+router.post("/goodsInwards", goodsInwardsController.createGoodsInwards)
 
 // Get all goods inwards records
-router.get("/goodsinwards", goodsInwardsController.getAllGoodsInwards)
+router.get("/goodsInwards", goodsInwardsController.getAllGoodsInwards)
 
 // Get a single goods inwards record by ID
-router.get("/goodsinwards/:id", goodsInwardsController.getGoodsInwardsById)
+router.get("/goodsInwards/:id", goodsInwardsController.getGoodsInwardsById)
 
 // Update a goods inwards record
-router.put("/goodsinwards/:id", goodsInwardsController.updateGoodsInwards)
+router.put("/goodsInwards/:id", goodsInwardsController.updateGoodsInwards)
 
 // Delete a goods inwards record
-router.delete("/goodsinwards/:id", goodsInwardsController.deleteGoodsInwards)
+router.delete("/goodsInwards/:id", goodsInwardsController.deleteGoodsInwards)
 
 export default router
 

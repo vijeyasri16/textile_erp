@@ -142,7 +142,7 @@ const GoodsInwardsPage: React.FC = () => {
         processes
       };
 
-      const response = await fetch('http://localhost:6660/goodsinwards', {
+      const response = await fetch('http://localhost:6660/goodsInwards/goodsInwards', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -152,9 +152,9 @@ const GoodsInwardsPage: React.FC = () => {
 
       if (response.ok) {
         alert('Goods Inwards record added successfully!');
-        router.push('/goodsinwards');
+        router.push('/goodsInwards');
       } else {
-        console.error('Failed to add Goods Inwards record');
+        console.error('Failed to add Goods Inwards record', response.status, response.statusText);
       }
     } catch (error) {
       console.error('Error adding Goods Inwards record:', error);
@@ -514,7 +514,7 @@ const GoodsInwardsPage: React.FC = () => {
           <Button colorScheme="blue" onClick={handleSubmit}>
             Create Goods Inwards Record
           </Button>
-          <Link href="/goodsinwards" passHref>
+          <Link href="/goodsInwards" passHref>
             <Button colorScheme="teal">
               Cancel
             </Button>

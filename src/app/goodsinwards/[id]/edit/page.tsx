@@ -120,7 +120,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
   useEffect(() => {
     const fetchGoodsInwards = async () => {
       try {
-        const response = await fetch(`http://localhost:6660/goodsinwards/${id}`);
+        const response = await fetch(`http://localhost:6660/goodsInwards/goodsInwards/${id}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch goods inwards data');
@@ -248,7 +248,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
         processes
       };
 
-      const response = await fetch(`http://localhost:6660/goodsinwards/${id}`, {
+      const response = await fetch(`http://localhost:6660/goodsInwards/goodsInwards/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -258,7 +258,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
 
       if (response.ok) {
         alert('Goods Inwards record updated successfully!');
-        router.push('/goodsinwards');
+        router.push('/goodsInwards');
       } else {
         console.error('Failed to update Goods Inwards record');
         setError('Failed to update Goods Inwards record. Please try again.');
@@ -285,7 +285,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
           <AlertIcon />
           {error}
         </Alert>
-        <Button onClick={() => router.push('/goodsinwards')}>Back to List</Button>
+        <Button onClick={() => router.push('/goodsInwards')}>Back to List</Button>
       </Container>
     );
   }
@@ -643,7 +643,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
           <Button colorScheme="blue" onClick={handleUpdate}>
             Update Goods Inwards Record
           </Button>
-          <Link href="/goodsinwards" passHref>
+          <Link href="/goodsInwards" passHref>
             <Button colorScheme="teal">
               Cancel
             </Button>

@@ -19,7 +19,7 @@ app.use("/machines", machineRoutes);
 app.use("/fabrics", fabricRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/rawmaterials", rawMaterialRoutes);
-app.use("/goodsinwards", goodsInwardsRoutes);
+app.use("/goodsInwards", goodsInwardsRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");
