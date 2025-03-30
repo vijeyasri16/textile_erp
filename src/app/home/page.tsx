@@ -38,19 +38,14 @@ export default function HomePage() {
               Domains
             </Button>
           </Link>
-          <Link href="/collection" passHref>
+          <Link href="/cols" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Collection
+              Collection & Finishing
             </Button>
           </Link>
-          <Link href="/dyeing" passHref>
+          <Link href="/labs" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Dyeing
-            </Button>
-          </Link>
-          <Link href="/finishing" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Finishing
+              Lab
             </Button>
           </Link>
           <Link href="/Inventory" passHref>
@@ -58,19 +53,9 @@ export default function HomePage() {
               Inventory
             </Button>
           </Link>
-          <Link href="/Lab" passHref>
+          <Link href="/goods" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Lab
-            </Button>
-          </Link>
-          <Link href="/processing" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Processing
-            </Button>
-          </Link>
-          <Link href="/login" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Login
+              Goods Inward
             </Button>
           </Link>
           

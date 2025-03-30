@@ -62,7 +62,7 @@ const RawMaterialList: React.FC = () => {
       <Heading mb={4}>Raw Materials</Heading>
 
       <Button colorScheme="blue" mb={4}>
-        <Link href="/rawmaterials/new">Add New Raw Material</Link>
+        <Link href="/Inventory/rawmaterials/new">Add New Raw Material</Link>
       </Button>
 
       <Table variant="simple">
@@ -78,14 +78,14 @@ const RawMaterialList: React.FC = () => {
           {rawMaterials.map((rm) => (
             <Tr key={rm.id}>
               <Td>
-                <Link href={`/rawmaterials/${rm.id}`} passHref>
+                <Link href={`/Inventory/rawmaterials/${rm.id}`} passHref>
                   <Button variant="link" colorScheme="blue">{rm.name}</Button>
                 </Link>
               </Td>
               <Td>{rm.quantity}</Td>
               <Td>{rm.unitOfMeasure}</Td>
               <Td>
-                <Link href={`/rawmaterials/${rm.id}/edit`} passHref>
+                <Link href={`/Inventory/rawmaterials/${rm.id}/edit`} passHref>
                   <Button colorScheme="yellow" size="sm" mr={2}>Edit</Button>
                 </Link>
                 <IconButton

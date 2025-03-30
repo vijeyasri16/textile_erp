@@ -1,52 +1,176 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, Flex, Heading, VStack, Button, IconButton, Text } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { 
+  Box, 
+  Button, 
+  Container, 
+  Heading, 
+  Table, 
+  Thead, 
+  Tbody, 
+  Tr, 
+  Th, 
+  Td, 
+  VStack, 
+  HStack,
+  Text,
+  IconButton,
+  useToast
+} from '@chakra-ui/react';
+import { AddIcon, ViewIcon, DeleteIcon, EditIcon } from '@chakra-ui/icons';
 
-export default function FinishingPage() {
-  const [isOpen, setIsOpen] = useState(false);
+interface FinishingEntry {
+  id: string;
+  fMachine: string;
+  fDate: string;
+  fShift: string;
+  fSupervisor: string;
+  fOperator: string;
+}
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+const FinishingPage: React.FC = () => {
+  const [finishingEntries, setFinishingEntries] = useState<FinishingEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const toast = useToast();
+
+  // Fetch finishing entries
+  const fetchFinishingEntries = async () => {
+    try {
+      const response = await fetch('http://localhost:6660/finishing/getAllFinishingEntries');
+      if (!response.ok) {
+        throw new Error('Failed to fetch finishing entries');
+      }
+      const data = await response.json();
+      setFinishingEntries(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching finishing entries:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch finishing entries",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      setIsLoading(false);
+    }
   };
 
+  // Delete finishing entry
+  const handleDeleteEntry = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:6660/finishing/deleteFinishingEntry/${id}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Finishing entry deleted successfully",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        fetchFinishingEntries(); // Refresh the list
+      } else {
+        throw new Error('Failed to delete finishing entry');
+      }
+    } catch (error) {
+      console.error('Error deleting finishing entry:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete finishing entry",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    fetchFinishingEntries();
+  }, []);
+
   return (
-    <Flex height="100vh" direction="column" position="relative">
-      {/* Menu Button with Text */}
-      <Flex align="center" cursor="pointer" onClick={toggleSidebar} p={4} position="absolute" top={4} left={4} zIndex={20}>
-        <IconButton
-          aria-label="Toggle Menu"
-          icon={<HamburgerIcon />}
-          variant="ghost"
-        />
-        <Text ml={2} fontSize="lg" fontWeight="bold">Menu</Text>
-      </Flex>
+    <Container maxW="container.xl" py={6}>
+      <VStack spacing={6} align="stretch">
+        <HStack justifyContent="space-between" alignItems="center">
+          <Heading as="h1">Finishing Entries</Heading>
+          <Link href="/finishing/new">
+            <Button 
+              leftIcon={<AddIcon />} 
+              colorScheme="blue"
+            >
+              Create New Entry
+            </Button>
+          </Link>
+        </HStack>
 
-      {/* Sidebar Overlay */}
-      {isOpen && (
-        <Box position="fixed" top={0} left={0} width="100vw" height="100vh" bg="rgba(0, 0, 0, 0.5)" zIndex={10} onClick={toggleSidebar} />
-      )}
-      
-      {/* Sidebar */}
-      {isOpen && (
-        <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20}>
-          <VStack spacing={4} align="stretch">
-            <Link href="/finishing/finishing-prod" passHref>
-              <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">Finishing Production</Button>
-            </Link>
-            <Link href="/home" passHref>
-              <Button width="full" colorScheme="teal" justifyContent="flex-start" textAlign="left">Home</Button>
-            </Link>
-          </VStack>
-        </Box>
-      )}
-
-      {/* Main Content */}
-      <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">
-        <Heading size="2xl" color="gray.700">Finishing Section</Heading>
-      </Flex>
-    </Flex>
+        {isLoading ? (
+          <Text>Loading...</Text>
+        ) : finishingEntries.length === 0 ? (
+          <Box textAlign="center" py={10}>
+            <Text fontSize="xl">No Finishing Entries Found</Text>
+          </Box>
+        ) : (
+          <Box overflowX="auto">
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th>Date</Th>
+                  <Th>Machine</Th>
+                  <Th>Shift</Th>
+                  <Th>Supervisor</Th>
+                  <Th>Operator</Th>
+                  <Th>Actions</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {finishingEntries.map((entry) => (
+                  <Tr key={entry.id}>
+                    <Td>{entry.fDate}</Td>
+                    <Td>{entry.fMachine}</Td>
+                    <Td>{entry.fShift}</Td>
+                    <Td>{entry.fSupervisor}</Td>
+                    <Td>{entry.fOperator}</Td>
+                    <Td>
+                      <HStack>
+                        <Link href={`/finishing/${entry.id}`}>
+                          <IconButton 
+                            aria-label="View Details" 
+                            icon={<ViewIcon />} 
+                            size="sm" 
+                            colorScheme="blue"
+                          />
+                        </Link>
+                        <Link href={`/finishing/${entry.id}/edit`}>
+                          <IconButton 
+                            aria-label="Edit" 
+                            icon={<EditIcon />} 
+                            size="sm" 
+                            colorScheme="green"
+                          />
+                        </Link>
+                        <IconButton 
+                          aria-label="Delete" 
+                          icon={<DeleteIcon />} 
+                          size="sm" 
+                          colorScheme="red"
+                          onClick={() => handleDeleteEntry(entry.id)}
+                        />
+                      </HStack>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+        )}
+      </VStack>
+    </Container>
   );
-}
+};
+
+export default FinishingPage;

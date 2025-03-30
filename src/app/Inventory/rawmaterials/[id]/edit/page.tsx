@@ -52,7 +52,7 @@ const EditRawMaterial: React.FC = () => {
 
       if (response.ok) {
         alert('Raw Material updated successfully!');
-        router.push(`/rawmaterials/${id}`);
+        router.push(`/Inventory/rawmaterials/${id}`);
       } else {
         console.error('Failed to update raw material');
       }
@@ -82,7 +82,7 @@ const EditRawMaterial: React.FC = () => {
 
       <Flex mt={6} justify="space-between">
         <Button colorScheme="blue" onClick={handleUpdate}>Update Raw Material</Button>
-        <Button colorScheme="teal" onClick={() => router.push(`/rawmaterials/${id}`)}>Cancel</Button>
+        <Button colorScheme="teal" onClick={() => router.push(`/Inventory/rawmaterials/${id}`)}>Cancel</Button>
       </Flex>
     </Box>
   );

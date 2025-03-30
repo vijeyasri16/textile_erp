@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Box,
@@ -21,13 +21,11 @@ import {
   Td,
   IconButton,
   HStack,
-  VStack,
   Divider,
   Container,
   Spinner,
   Alert,
-  AlertIcon,
-  FormHelperText,
+  AlertIcon
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
@@ -80,7 +78,7 @@ interface PageProps {
 
 const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
   const router = useRouter();
-  const { id } = params;
+  const { id } = use(params);
   
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -258,7 +256,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
 
       if (response.ok) {
         alert('Goods Inwards record updated successfully!');
-        router.push('/goodsInwards');
+        router.push('/goodsinwards');
       } else {
         console.error('Failed to update Goods Inwards record');
         setError('Failed to update Goods Inwards record. Please try again.');
@@ -285,7 +283,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
           <AlertIcon />
           {error}
         </Alert>
-        <Button onClick={() => router.push('/goodsInwards')}>Back to List</Button>
+        <Button onClick={() => router.push('/goodsinwards')}>Back to List</Button>
       </Container>
     );
   }
@@ -643,7 +641,7 @@ const EditGoodsInwardsPage: React.FC<PageProps> = ({ params }) => {
           <Button colorScheme="blue" onClick={handleUpdate}>
             Update Goods Inwards Record
           </Button>
-          <Link href="/goodsInwards" passHref>
+          <Link href="/goodsinwards" passHref>
             <Button colorScheme="teal">
               Cancel
             </Button>

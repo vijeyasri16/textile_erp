@@ -42,10 +42,10 @@ const SupplierDetail: React.FC = () => {
       <Text><strong>Address:</strong> {supplier.supplierAddress}</Text>
 
       <Box mt={6}>
-        <Link href={`/suppliers/${id}/edit`} passHref>
+        <Link href={`/domains/suppliers/${id}/edit`} passHref>
           <Button colorScheme="blue" mr={2}>Edit</Button>
         </Link>
-        <Link href="/suppliers" passHref>
+        <Link href="/domains/suppliers" passHref>
           <Button colorScheme="teal">Back</Button>
         </Link>
       </Box>

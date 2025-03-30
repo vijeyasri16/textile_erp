@@ -63,7 +63,7 @@ const SupplierList: React.FC = () => {
       <Heading mb={4}>Supplier List</Heading>
 
       <Button colorScheme="blue" mb={4}>
-        <Link href="/suppliers/new">Add New Supplier</Link>
+        <Link href="/domains/suppliers/new">Add New Supplier</Link>
       </Button>
 
       <Table variant="simple">
@@ -79,14 +79,14 @@ const SupplierList: React.FC = () => {
           {suppliers.map((supplier) => (
             <Tr key={supplier.id}>
               <Td>
-                <Link href={`/suppliers/${supplier.id}`} passHref>
+                <Link href={`/domains/suppliers/${supplier.id}`} passHref>
                   <Button variant="link" colorScheme="blue">{supplier.name}</Button>
                 </Link>
               </Td>
               <Td>{supplier.phone}</Td>
               <Td>{supplier.supplierAddress}</Td>
               <Td>
-                <Link href={`/suppliers/${supplier.id}/edit`} passHref>
+                <Link href={`/domains/suppliers/${supplier.id}/edit`} passHref>
                   <Button colorScheme="yellow" size="sm" mr={2}>Edit</Button>
                 </Link>
                 <IconButton

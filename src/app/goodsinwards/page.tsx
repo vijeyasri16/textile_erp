@@ -19,10 +19,6 @@ import {
   InputLeftElement,
   IconButton,
   Badge,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Select,
   HStack,
   Text,
@@ -31,14 +27,7 @@ import {
   Alert,
   AlertIcon,
 } from '@chakra-ui/react';
-import { 
-  SearchIcon, 
-  AddIcon, 
-  EditIcon, 
-  DeleteIcon, 
-  ViewIcon, 
-  ChevronDownIcon 
-} from '@chakra-ui/icons';
+import { SearchIcon, AddIcon, EditIcon, DeleteIcon, ViewIcon } from "@chakra-ui/icons"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -70,7 +59,7 @@ const GoodsInwardsListPage: React.FC = () => {
   useEffect(() => {
     fetchGoodsInwards();
   }, []);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     filterAndSortData();
   }, [searchTerm, sortField, sortDirection, categoryFilter, goodsInwardsList]);

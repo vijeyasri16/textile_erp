@@ -49,7 +49,7 @@ const EditSupplier: React.FC = () => {
 
       if (response.ok) {
         alert('Supplier updated successfully!');
-        router.push(`/suppliers/${id}`);
+        router.push(`/domains/suppliers/${id}`);
       } else {
         console.error('Failed to update supplier');
       }

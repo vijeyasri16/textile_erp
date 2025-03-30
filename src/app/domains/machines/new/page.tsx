@@ -28,7 +28,7 @@ const AddMachine: React.FC = () => {
 
       if (response.ok) {
         alert('Machine added successfully!');
-        router.push('/machines'); // Redirect to machine list
+        router.push('/domains/machines'); // Redirect to machine list
       } else {
         console.error('Failed to add machine');
       }
@@ -54,7 +54,7 @@ const AddMachine: React.FC = () => {
 
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue" onClick={handleAddMachine}>Create Machine</Button>
-        <Link href="/machines" passHref>
+        <Link href="/domains/machines" passHref>
           <Button colorScheme="teal" ml={2}>Cancel</Button>
         </Link>
       </Box>

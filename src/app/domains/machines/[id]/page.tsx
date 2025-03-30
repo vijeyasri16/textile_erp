@@ -43,10 +43,10 @@ const MachineDetail: React.FC = () => {
       <Text><strong>Process Linked:</strong> {machine.processLinked}</Text>
 
       <Box mt={6}>
-        <Link href={`/machines/${id}/edit`} passHref>
+        <Link href={`/domains/machines/${id}/edit`} passHref>
           <Button colorScheme="blue" mr={2}>Edit</Button>
         </Link>
-        <Link href="/machines" passHref>
+        <Link href="/domains/machines" passHref>
           <Button colorScheme="teal">Back</Button>
         </Link>
       </Box>

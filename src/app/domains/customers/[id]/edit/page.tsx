@@ -50,7 +50,7 @@ const EditCustomer: React.FC = () => {
 
       if (response.ok) {
         alert('Customer updated successfully!');
-        router.push(`/customers/${id}`);
+        router.push(`/domains/customers/${id}`);
       } else {
         console.error('Failed to update customer');
       }
@@ -80,7 +80,7 @@ const EditCustomer: React.FC = () => {
 
       <Flex mt={6} justify="space-between">
         <Button colorScheme="blue" onClick={handleUpdate}>Update Customer</Button>
-        <Button colorScheme="teal" onClick={() => router.push(`/customers/${id}`)}>Cancel</Button>
+        <Button colorScheme="teal" onClick={() => router.push(`/domains/customers/${id}`)}>Cancel</Button>
       </Flex>
     </Box>
   );

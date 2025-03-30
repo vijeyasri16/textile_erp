@@ -63,7 +63,7 @@ const MachineList: React.FC = () => {
       <Heading mb={4}>Machine List</Heading>
 
       <Button colorScheme="blue" mb={4}>
-        <Link href="/machines/new">Add New Machine</Link>
+        <Link href="/domains/machines/new">Add New Machine</Link>
       </Button>
 
       <Table variant="simple">
@@ -78,13 +78,13 @@ const MachineList: React.FC = () => {
           {machines.map((machine) => (
             <Tr key={machine.id}>
               <Td>
-                <Link href={`/machines/${machine.id}`} passHref>
+                <Link href={`/domains/machines/${machine.id}`} passHref>
                   <Button variant="link" colorScheme="blue">{machine.name}</Button>
                 </Link>
               </Td>
               <Td>{machine.processLinked}</Td>
               <Td>
-                <Link href={`/machines/${machine.id}/edit`} passHref>
+                <Link href={`/domains/machines/${machine.id}/edit`} passHref>
                   <Button colorScheme="yellow" size="sm" mr={2}>Edit</Button>
                 </Link>
                 <IconButton

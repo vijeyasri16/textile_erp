@@ -29,7 +29,7 @@ const AddRawMaterial: React.FC = () => {
 
       if (response.ok) {
         alert('Raw Material added successfully!');
-        router.push('/rawmaterials');
+        router.push('/Inventory/rawmaterials');
       } else {
         console.error('Failed to add raw material');
       }
@@ -59,7 +59,7 @@ const AddRawMaterial: React.FC = () => {
 
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue" onClick={handleAddRawMaterial}>Create Raw Material</Button>
-        <Link href="/rawmaterials" passHref>
+        <Link href="/Inventory/rawmaterials" passHref>
           <Button colorScheme="teal" ml={2}>Cancel</Button>
         </Link>
       </Box>

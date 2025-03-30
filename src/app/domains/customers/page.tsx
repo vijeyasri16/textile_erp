@@ -64,7 +64,7 @@ const CustomerList: React.FC = () => {
       <Heading mb={4}>Customer List</Heading>
 
       <Button colorScheme="blue" mb={4}>
-        <Link href="/customers/new">Add New Customer</Link>
+        <Link href="/domains/customers/new">Add New Customer</Link>
       </Button>
 
       <Table variant="simple">
@@ -87,7 +87,7 @@ const CustomerList: React.FC = () => {
               <Td>{customer.phone}</Td>
               <Td>{customer.deliveryAddress}</Td>
               <Td>
-                <Link href={`/customers/${customer.id}/edit`} passHref>
+                <Link href={`/domains/customers/${customer.id}/edit`} passHref>
                   <Button colorScheme="yellow" size="sm" mr={2}>Edit</Button>
                 </Link>
                 <IconButton

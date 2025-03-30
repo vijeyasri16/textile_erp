@@ -21,10 +21,8 @@ import {
   Td,
   IconButton,
   HStack,
-  VStack,
   Divider,
   Container,
-  FormHelperText,
 } from '@chakra-ui/react';
 import { AddIcon, DeleteIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
@@ -152,7 +150,7 @@ const GoodsInwardsPage: React.FC = () => {
 
       if (response.ok) {
         alert('Goods Inwards record added successfully!');
-        router.push('/goodsInwards');
+        router.push('/goodsinwards');
       } else {
         console.error('Failed to add Goods Inwards record', response.status, response.statusText);
       }
@@ -514,7 +512,7 @@ const GoodsInwardsPage: React.FC = () => {
           <Button colorScheme="blue" onClick={handleSubmit}>
             Create Goods Inwards Record
           </Button>
-          <Link href="/goodsInwards" passHref>
+          <Link href="/goodsinwards" passHref>
             <Button colorScheme="teal">
               Cancel
             </Button>

@@ -30,7 +30,7 @@ const AddSupplier: React.FC = () => {
 
       if (response.ok) {
         alert('Supplier added successfully!');
-        router.push('/suppliers');
+        router.push('/domains/suppliers');
       } else {
         console.error('Failed to add supplier');
       }
@@ -60,7 +60,7 @@ const AddSupplier: React.FC = () => {
 
       <Box mt={6} textAlign="center">
         <Button colorScheme="blue" onClick={handleAddSupplier}>Create Supplier</Button>
-        <Link href="/suppliers" passHref>
+        <Link href="/domains/suppliers" passHref>
           <Button colorScheme="teal" ml={2}>Cancel</Button>
         </Link>
       </Box>

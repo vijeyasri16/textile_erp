@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 import {
   Box,
   Button,
@@ -25,19 +25,14 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  StatHelpText,
-  IconButton,
   Card,
   CardHeader,
   CardBody,
-  Stack,
-  useToast
+  Stack
 } from '@chakra-ui/react';
 import { 
   EditIcon, 
-  ArrowBackIcon, 
-  DownloadIcon, 
-  EmailIcon 
+  ArrowBackIcon
 } from '@chakra-ui/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -84,13 +79,12 @@ interface GoodsInwardsDetails {
 }
 
 const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = use(params);
   const router = useRouter();
-  const toast = useToast();
   const [goodsInwards, setGoodsInwards] = useState<GoodsInwardsDetails | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     fetchGoodsInwardsDetails();
   }, [id]);
@@ -122,28 +116,6 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
     return date.toLocaleDateString();
   };
 
-  const handleExport = () => {
-    toast({
-      title: "Export initiated",
-      description: "Goods inwards details are being exported to PDF",
-      status: "info",
-      duration: 3000,
-      isClosable: true,
-    });
-    // Actual export functionality would be implemented here
-  };
-
-  const handleEmailSend = () => {
-    toast({
-      title: "Email preparation",
-      description: "Preparing to send goods inwards details via email",
-      status: "info",
-      duration: 3000,
-      isClosable: true,
-    });
-    // Actual email functionality would be implemented here
-  };
-
   if (isLoading) {
     return (
       <Container maxW="container.xl" py={6}>
@@ -163,7 +135,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
         </Alert>
         <Button 
           leftIcon={<ArrowBackIcon />} 
-          onClick={() => router.push('/goodsInwards')}
+          onClick={() => router.push('/goodsinwards')}
         >
           Back to List
         </Button>
@@ -177,7 +149,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
         <Button 
           leftIcon={<ArrowBackIcon />} 
           variant="outline" 
-          onClick={() => router.push('/goodsInwards')}
+          onClick={() => router.push('/goodsinwards')}
           mr={4}
         >
           Back
@@ -190,23 +162,7 @@ const GoodsInwardsDetailsPage = ({ params }: { params: { id: string } }) => {
         <Spacer />
         
         <HStack spacing={3}>
-          <Button 
-            leftIcon={<DownloadIcon />} 
-            colorScheme="blue" 
-            variant="outline"
-            onClick={handleExport}
-          >
-            Export
-          </Button>
-          <Button 
-            leftIcon={<EmailIcon />} 
-            colorScheme="green" 
-            variant="outline"
-            onClick={handleEmailSend}
-          >
-            Email
-          </Button>
-          <Link href={`/goodsInwards/${id}/edit`} passHref>
+          <Link href={`/goodsinwards/${id}/edit`} passHref>
             <Button leftIcon={<EditIcon />} colorScheme="teal">
               Edit
             </Button>

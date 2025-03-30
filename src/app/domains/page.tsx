@@ -135,6 +135,10 @@ export default function DomainsPage() {
               </Button>
             </Link>
 
+            <Link href="/" passHref>
+              <Button width="full" colorScheme="blue" justifyContent="flex-start">Home</Button>
+            </Link>
+
           </VStack>
         </Box>
       )}

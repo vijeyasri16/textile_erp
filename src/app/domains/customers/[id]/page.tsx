@@ -44,10 +44,10 @@ const CustomerDetail: React.FC = () => {
       <Text><strong>Address:</strong> {customer.deliveryAddress}</Text>
 
       <Box mt={6}>
-        <Link href={`/customers/${id}/edit`} passHref>
+        <Link href={`/domains/customers/${id}/edit`} passHref>
           <Button colorScheme="blue" mr={2}>Edit</Button>
         </Link>
-        <Link href="/customers" passHref>
+        <Link href="/domains" passHref>
           <Button colorScheme="teal">Back</Button>
         </Link>
       </Box>

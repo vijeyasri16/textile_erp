@@ -49,9 +49,13 @@ export default function InventoryPage() {
                 Update Raw Material
               </Button>
             </Link>
+            <Link href="/" passHref>
+              <Button width="full" colorScheme="blue" justifyContent="flex-start">Home</Button>
+            </Link>            
           </VStack>
         </Box>
       )}
+      
 
       {/* Main Content */}
       <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 import {
   Box,
   Button,
@@ -27,7 +26,6 @@ interface Employee {
 const EmployeeList: React.FC = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const toast = useToast();
-  const router = useRouter();
 
   useEffect(() => {
     fetch('http://localhost:6660/employees')

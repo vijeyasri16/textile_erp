@@ -97,3 +97,277 @@ model GoodsInwardsProcess {
 
   @@unique([goodsInwardsId, gSNo])
 }
+
+
+model LabEntry {
+  id             Int             @id @default(autoincrement())
+  lLabNo         String          @unique
+  lDate          DateTime
+  lReference     String
+  lContactPerson String
+  lCustomer      String
+  lCancelled     Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  labDetails     LabDetailItem[]
+}
+
+model LabDetailItem {
+  id           Int      @id @default(autoincrement())
+  lSNo         Int
+  lColour      String
+  lPantoneNo   String
+  lJobNo       String
+  lFabricLight String
+  lFastness    String
+  lApprovalBy  String
+  lRemarks     String
+  labEntry     LabEntry @relation(fields: [labEntryId], references: [id], onDelete: Cascade)
+  labEntryId   Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([labEntryId, lSNo])
+}
+
+model DyeingPlanning {
+  id                    Int                     @id @default(autoincrement())
+  dlJobNo               String
+  dlRev                 String
+  dlDate                String
+  dlCardWeight          String
+  dlMachine             String
+  dlFabric              String
+  dlColour              String
+  dlOldBatchNo          String
+  dlCRCode              String
+  dlCRDate              String
+  dlLRCode              String
+  dlLRDate              String
+  dlLRIndep             String
+  dlLRIndepDate         String
+  dlRemarks             String
+  dlColourIdentification String
+  stageDetails          DyeingPlanningStage[]
+  itemDetails           DyeingPlanningItem[]
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+}
+
+model DyeingPlanningStage {
+  id               Int            @id @default(autoincrement())
+  dlSNo            Int
+  dlStage          String
+  dlMLR            String
+  dlTLiquor        String
+  dyeingPlanning   DyeingPlanning @relation(fields: [dyeingPlanningId], references: [id], onDelete: Cascade)
+  dyeingPlanningId Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model DyeingPlanningItem {
+  id               Int            @id @default(autoincrement())
+  dlSNo            Int
+  dlStage          String
+  dlItemName       String
+  dlValue          String
+  dlGPLPercentage  String
+  dlWeight         String
+  dyeingPlanning   DyeingPlanning @relation(fields: [dyeingPlanningId], references: [id], onDelete: Cascade)
+  dyeingPlanningId Int
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+
+model JobCard {
+  id                  Int                     @id @default(autoincrement())
+  jcDate              String
+  jcShift             String?
+  jcLoadTime          String?
+  jcUnloadTime        String?
+  jcIdleHours         String?
+  jcRunHours          String?
+  jcRopeLength        String?
+  jcSpeed             String?
+  jcPreTreatment      String?
+  jcDyeBath           String?
+  jcDyes              String?
+  jcAlkali            String?
+  jcAfterTreatment    String?
+  jcSLDate            String?
+  jcCustomer          String
+  jcColour            String?
+  jcBatchNo           String
+  jcLotNo             String?
+  jcFRNNo             String?
+  jcMachineNo         String?
+  jcCustomerDCNo      String?
+  jcWeight            String?
+  jcMLR               String?
+  jcRoll              String?
+  jcFabricType        String?
+  jcLabNo             String?
+  jcGSM               String?
+  jcScourBathPH       String?
+  jcResH2O2           String?
+  jcStartBathPH       String?
+  jcAlkaliBathPH      String?
+  jcSoapingPH         String?
+  jcDyeFixingPH       String?
+  jcFinalBathPH       String?
+  jcDyeStartVolume    String?
+  jcDosageVolume      String?
+  jcJobCardCompletion Boolean                 @default(false)
+  jcJobCardIssued     Boolean                 @default(false)
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
+  pretreatmentDetails PreTreatmentDetail[]
+}
+
+model PreTreatmentDetail {
+  id                    Int      @id @default(autoincrement())
+  jcSNo                 Int
+  jcPretreatment        String?
+  jcItem                String?
+  jcRequiredQty         String?
+  jcTemperature         String?
+  jcTime                String?
+  jcStartTime           String?
+  jcFinishTime          String?
+  jcDosingAndSteamTime  String?
+  jobCard               JobCard  @relation(fields: [jobCardId], references: [id], onDelete: Cascade)
+  jobCardId             Int
+}
+
+model Collection {
+  id                Int                @id @default(autoincrement())
+  cVNo              String             @unique
+  cDate             DateTime
+  cReference        String?
+  cCustomer         String
+  cPaymentMode      String
+  
+  // Cash payment details
+  cCashAmount       Float?
+  
+  // Cheque payment details
+  cChequeNo         String?
+  cChequeIssueDate  DateTime?
+  cChequeBankDetails String?
+  cChequeAmount     Float?
+  
+  // NEFT payment details
+  cNEFTTransactionId String?
+  cNEFTTransferDate DateTime?
+  cNEFTBankDetails  String?
+  cNEFTAmount       Float?
+  
+  // DD payment details
+  cDDNo             String?
+  cDDIssueDate      DateTime?
+  cDDBankDetails    String?
+  cDDAmount         Float?
+  
+  // Additional fields
+  cTotalAmount      Float              @default(0)
+  cUnAdjustAmt      Float?             @default(0)
+  cNarration        String?
+  
+  // Relationships
+  collectionDetails CollectionDetail[]
+  
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model CollectionDetail {
+  id             Int        @id @default(autoincrement())
+  collection     Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId   Int
+  
+  cSNo           Int
+  cBillNo        String
+  cBillAmount    Float
+  cPrevCollected Float      @default(0)
+  cPrevBalance   Float      @default(0)
+  cCurAmount     Float
+  cCurBalance    Float
+  
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  
+  @@unique([collectionId, cSNo])
+  @@index([cBillNo])
+}
+
+model FinishingEntry {
+  id           Int                 @id @default(autoincrement())
+  fMachine     String
+  fDate        String
+  fShift       String
+  fSupervisor  String
+  fOperator    String
+  productionDetails ProductionDetail[]
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+}
+
+model ProductionDetail {
+  id           Int            @id @default(autoincrement())
+  fSNo         Int
+  fProdType    String
+  fProcess     String
+  fWeight      String
+  fRemarks     String
+  finishingEntry FinishingEntry @relation(fields: [finishingEntryId], references: [id], onDelete: Cascade)
+  finishingEntryId Int
+}
+model Delivery {
+  id            Int      @id @default(autoincrement())
+  dlVNo         String   @unique
+  dlDate        DateTime
+  dlReferenceType String
+  dlCustomer    String
+  dlDeliveryTo  String
+  dlJobNo       String
+  dlGreigeWeight String
+  
+  // Additional fields
+  dlBillingName String?
+  dlNarration   String?
+  dlAppxVal     String?
+  dlFormJJNo    String?
+  dlWhoseVehicle String?
+  dlVehicleNum  String?
+  dlDriverName  String?
+  dlStyleNo     String?
+
+  // Relation to Delivery Details
+  deliveryDetails DeliveryDetail[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model DeliveryDetail {
+  id            Int      @id @default(autoincrement())
+  dlSNo         Int
+  dlInwNo       String?
+  dlCustOrdNo   String?
+  dlCustDCNo    String?
+  dlFabric      String?
+  dlColor       String?
+  dlGreigeDia   String?
+  dlFinishRolls String?
+  dlWeight      String?
+  dlProcess     String?
+  dlGreigeWeightLoss String?
+
+  // Relation to Delivery
+  delivery      Delivery @relation(fields: [deliveryId], references: [id], onDelete: Cascade)
+  deliveryId    Int
+
+  @@unique([deliveryId, dlSNo])
+}

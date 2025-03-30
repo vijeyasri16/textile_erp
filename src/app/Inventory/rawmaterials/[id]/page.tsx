@@ -42,10 +42,10 @@ const RawMaterialDetail: React.FC = () => {
       <Text><strong>Unit of Measure:</strong> {rawMaterial.unitOfMeasure}</Text>
 
       <Box mt={6}>
-        <Link href={`/rawmaterials/${id}/edit`} passHref>
+        <Link href={`/Inventory/rawmaterials/${id}/edit`} passHref>
           <Button colorScheme="blue" mr={2}>Edit</Button>
         </Link>
-        <Link href="/rawmaterials" passHref>
+        <Link href="/Inventory/rawmaterials" passHref>
           <Button colorScheme="teal">Back</Button>
         </Link>
       </Box>
