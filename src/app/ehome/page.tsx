@@ -5,7 +5,7 @@ import { Box, Flex, Heading, VStack, Button, IconButton, Text } from '@chakra-ui
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 
-export default function HomePage() {
+export default function eHomePage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -33,11 +33,6 @@ export default function HomePage() {
       {isOpen && (
         <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20}>
         <VStack spacing={4} align="stretch">
-        <Link href="/domains" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Domains
-            </Button>
-          </Link>
           <Link href="/cols" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
               Collection & Finishing
@@ -48,19 +43,16 @@ export default function HomePage() {
               Lab
             </Button>
           </Link>
-          <Link href="/Inventory" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Inventory
-            </Button>
-          </Link>
           <Link href="/goods" passHref>
             <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
               Goods Inward
             </Button>
           </Link>
-                  <Link href="/" passHref>
-                        <Button width="full" colorScheme="blue" justifyContent="flex-start">Dashboard</Button>
-                      </Link>
+          <Link href="/" passHref>
+            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
+              Dashboard
+            </Button>
+          </Link>
           
         </VStack>
       </Box>
@@ -69,7 +61,7 @@ export default function HomePage() {
 
       {/* Main Content */}
       <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">
-        <Heading size="2xl" color="gray.700">ERP System</Heading>
+        <Heading size="2xl" color="gray.700">Employee Operations</Heading>
       </Flex>
     </Flex>
   );

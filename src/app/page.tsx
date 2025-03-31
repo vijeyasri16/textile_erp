@@ -1,73 +1,69 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, Flex, Heading, VStack, Button, IconButton, Text } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Flex,
+  Heading,
+  VStack,
+  Button,
+  IconButton,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 
-export default function HomePage() {
+export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const loggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+    if (loggedIn) {
+      setIsLoggedIn(true);
+      setUserName(sessionStorage.getItem('employeeName') || '');
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('employeeId');
+    sessionStorage.removeItem('employeeName');
+    setIsLoggedIn(false);
+    setUserName('');
+  };
+
   return (
     <Flex height="100vh" direction="column" position="relative">
-      {/* Menu Button with Text */}
-      <Flex align="center" cursor="pointer" onClick={toggleSidebar} p={4} position="absolute" top={4} left={4} zIndex={20}>
-        <IconButton
-          aria-label="Toggle Menu"
-          icon={<HamburgerIcon />}
-          variant="ghost"
-        />
-        <Text ml={2} fontSize="lg" fontWeight="bold">Menu</Text>
-      </Flex>
+      <Box pt={16} px={6} flex={1} bg="gray.50">
 
-      {/* Sidebar Overlay */}
-      {isOpen && (
-        <Box position="fixed" top={0} left={0} width="100vw" height="100vh" bg="rgba(0, 0, 0, 0.5)" zIndex={10} onClick={toggleSidebar} />
-      )}
-      
-      {/* Sidebar */}
-      {isOpen && (
-        <Box position="fixed" top={0} left={0} width="250px" height="100vh" bg="gray.100" p={4} zIndex={20}>
-        <VStack spacing={4} align="stretch">
-        <Link href="/domains" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Domains
-            </Button>
-          </Link>
-          <Link href="/cols" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Collection & Finishing
-            </Button>
-          </Link>
-          <Link href="/labs" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Lab
-            </Button>
-          </Link>
-          <Link href="/Inventory" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Inventory
-            </Button>
-          </Link>
-          <Link href="/goods" passHref>
-            <Button width="full" colorScheme="blue" justifyContent="flex-start" textAlign="left">
-              Goods Inward
-            </Button>
-          </Link>
-          
-        </VStack>
+        {isLoggedIn ? (
+          <Text fontSize="xl">Welcome to your dashboard, {userName}!</Text>
+        ) : (
+          <Flex direction="column" align="center" justify="center" pt={12}>
+            <Heading size="lg" mb={6} color="gray.600" textAlign="center">
+              Welcome to the ERP System
+            </Heading>
+            <Text fontSize="xl" mb={10} textAlign="center" maxW="700px">
+              Please log in as an admin or employee to access your dashboard.
+            </Text>
+            <Flex direction={{ base: "column", md: "row" }} gap={4}>
+              <Link href="/login/adminlogin" passHref>
+                <Button size="lg" colorScheme="blue" width={{ base: "full", md: "auto" }}>Admin Login</Button>
+              </Link>
+              <Link href="/login/emplogin" passHref>
+                <Button size="lg" colorScheme="green" width={{ base: "full", md: "auto" }}>Employee Login</Button>
+              </Link>
+            </Flex>
+          </Flex>
+        )}
       </Box>
-      
-      )}
-
-      {/* Main Content */}
-      <Flex flex={1} align="center" justify="center" bg="gray.50" height="100vh">
-        <Heading size="2xl" color="gray.700">ERP System</Heading>
-      </Flex>
     </Flex>
   );
 }

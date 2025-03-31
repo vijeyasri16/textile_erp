@@ -65,7 +65,7 @@ export default function CollectionSectionsPage() {
                 Edit Finishing
               </Button>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/home" passHref>
               <Button width="full" colorScheme="blue" justifyContent="flex-start">Home</Button>
             </Link>
 

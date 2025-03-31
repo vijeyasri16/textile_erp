@@ -50,7 +50,7 @@ export default function GoodsPage() {
                 Update Goods
               </Button>
             </Link>
-            <Link href="/" passHref>
+            <Link href="/home" passHref>
               <Button width="full" colorScheme="blue" justifyContent="flex-start">Home</Button>
             </Link>
 
